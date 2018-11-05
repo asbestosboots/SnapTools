@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 
 import com.google.common.io.Files;
@@ -168,7 +169,11 @@ public class Sharing extends ModuleHelper {
 
                             BitmapFactory.Options options = new BitmapFactory.Options();
                             options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-                            Bitmap bitmap = BitmapFactory.decodeFile(imgPath, options);
+                            Bitmap shared = BitmapFactory.decodeFile(imgPath, options);
+                            
+                            Matrix matrix = new Matrix();
+                            matrix.postRotate(-90);
+                            Bitmap bitmap = Bitmap.createBitmap(shared, 0, 0, shared.getWidth(), shared.getHeight(), matrix, true);
 
                             if (bitmap == null) {
                                 SafeToastAdapter.showErrorToast(
